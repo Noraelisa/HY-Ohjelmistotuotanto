@@ -30,7 +30,7 @@ class Ostoskori:
 
     def poista_tuote(self, poistettava: Tuote):
         for ostos in self.ostoskori:
-            if ostos == poistettava:
+            if ostos.tuotteen_nimi() == poistettava.nimi:
                 self.ostoskori.remove(ostos)
 
     def tyhjenna(self):
