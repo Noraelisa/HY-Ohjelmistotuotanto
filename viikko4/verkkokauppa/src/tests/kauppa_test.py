@@ -81,3 +81,24 @@ class TestKauppa(unittest.TestCase):
 
         self.assertEqual(self.kauppa._ostoskori.hinta(), 4)
 
+    def test_kauppa_pyytaa_uuden_viitenumeron_eri_tapahtumalle(self):
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 1)
+
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("kalle", "11111")
+
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 2)
+
+    def test_metodi_poista_korista_poistaa_tuotteen_korista(self):
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.lisaa_koriin(2)
+        self.kauppa.poista_korista(1)
+
+        self.assertEqual(self.kauppa._ostoskori.hinta(), 4)
+
